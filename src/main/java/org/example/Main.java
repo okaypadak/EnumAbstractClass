@@ -13,12 +13,12 @@ abstract class AbstractSinif implements Arayuz1, Arayuz2 {
     // Arayüzlerde tanımlanan metotları burada uyguluyoruz
     @Override
     public void metot1() {
-        System.out.println("Arayüz 1 metodu çalıştı");
+        System.out.println("AbstractSinif metodu 1 çalıştı");
     }
 
     @Override
     public void metot2() {
-        System.out.println("Arayüz 2 metodu çalıştı");
+        System.out.println("AbstractSinif metodu 2 çalıştı");
     }
 
     abstract void metod3();
@@ -28,7 +28,7 @@ class Sinif1 extends AbstractSinif {
 
     @Override
     void metod3() {
-
+        System.out.println("Sinif 1 Metod 3 metodu çalıştı");
     }
 }
 
@@ -36,7 +36,7 @@ class Sinif2 extends AbstractSinif {
 
     @Override
     void metod3() {
-        System.out.println("Metod 3 metodu çalıştı");
+        System.out.println("Sinif 2 Metod 3 metodu çalıştı");
     }
 }
 
@@ -65,6 +65,17 @@ enum Siniflar {
         }
         return null;
     }
+
+    public AbstractSinif getInstance() {
+        try {
+            return sinif.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }
 
 public class Main {
@@ -73,6 +84,15 @@ public class Main {
 
         AbstractSinif class2 = Siniflar.getInstance("Class2");
         class2.metod3();
+
+
+        for (Siniflar sinif : Siniflar.values()) {
+            AbstractSinif instance = sinif.getInstance();
+            instance.metot1();
+            instance.metot2();
+            instance.metod3();
+        }
+
 
     }
 }
