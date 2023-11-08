@@ -26,6 +26,8 @@ abstract class AbstractSinif implements Arayuz1, Arayuz2 {
 
 class Sinif1 extends AbstractSinif {
 
+
+
     @Override
     void metod3() {
         System.out.println("Sinif 1 Metod 3 metodu çalıştı");
@@ -47,6 +49,8 @@ enum Siniflar {
     private Class<? extends AbstractSinif> sinif;
     private String sinifAdi;
 
+    private static AbstractSinif instance = null;
+
     Siniflar(Class<? extends AbstractSinif> sinif, String sinifAdi) {
         this.sinif = sinif;
         this.sinifAdi = sinifAdi;
@@ -56,7 +60,10 @@ enum Siniflar {
         for (Siniflar tek: Siniflar.values()) {
             if (tek.sinifAdi.equals(sinifAdi)) {
                 try {
-                    return tek.sinif.newInstance();
+                    if (instance == null) {
+                        instance = tek.sinif.newInstance();
+                    }
+                    return instance;
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                     return null;
@@ -66,9 +73,16 @@ enum Siniflar {
         return null;
     }
 
+
+
     public AbstractSinif getInstance() {
         try {
-            return sinif.newInstance();
+                if (instance == null) {
+                    instance = sinif.newInstance();
+                }
+
+                return instance;
+
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
             return null;
@@ -85,13 +99,23 @@ public class Main {
         AbstractSinif class2 = Siniflar.getInstance("Class2");
         class2.metod3();
 
+        System.out.println("hash code:"+ class2.hashCode());
+
+        AbstractSinif class3 = Siniflar.getInstance("Class2");
+        class3.metod3();
+
+        System.out.println("hash code:"+ class3.hashCode());
+
 
         for (Siniflar sinif : Siniflar.values()) {
             AbstractSinif instance = sinif.getInstance();
             instance.metot1();
             instance.metot2();
             instance.metod3();
+
+
         }
+
 
 
     }
