@@ -1,15 +1,18 @@
-**Açıklama**
+Bu Java kodu bir arayüz, arayüzleri uygulayan sınıflar, bir soyut sınıf ve bu soyut sınıfı genişleten somut sınıflardan oluşuyor. İşlevsel olarak, temel olarak bir arayüz üzerinden türetilmiş sınıfların örneklerini oluşturuyor ve ardından bu örnekler üzerinden metotları çağırarak sonuçları ekrana yazdırıyor. Kodu adım adım inceleyelim:
 
-Bu Java kod parçası, `Siniflar` adlı bir enum sınıfını tanımlıyor. Bu enum, `AbstractSinif` sınıfından türetilmiş farklı sınıfların örneklerini oluşturan bir yapı içeriyor. `Siniflar` enum'unun her bir değeri, bir sınıf türünü (`sinif`) ve bir sınıf adını (`sinifAdi`) içerir.
+- `Arayuz1` adında bir arayüz tanımlanmış. Bu arayüz, `metot1()` ve `metot2()` adında iki soyut metot içeriyor.
 
-- `getInstance(String sinifAdi)` metodu, verilen sınıf adına (`sinifAdi`) göre ilgili `Siniflar` enum değerini bulur ve bu değeri kullanarak yeni bir örnek oluşturur.
+- `Sinif1` ve `Sinif2`, `Arayuz1` arayüzünü uygulayan sınıflardır. Her ikisi de `metot1()` ve `metot2()` metotlarını sınıf içinde aşırı yüklenmiş (override) olarak bulunduruyor.
 
-- `getInstance()` metodu, ilgili `Siniflar` enum değerini kullanarak yeni bir örnek oluşturur.
+- `Karisik` adında bir soyut sınıf tanımlanmış. Bu sınıf, generic (jenerik) bir tip `C` alıyor ve bu tip, `Arayuz1` arayüzünü uygulayan sınıflardan birini temsil ediyor. `Karisik` sınıfı, bu generic tipten bir örnek alarak bir constructor (kurucu) ile başlatılıyor. `abstractMetod1()` adında bir soyut metot bulunuyor, bu metot içinde alınan client nesnesinin `metot1()` metodu çağrılıyor ve ardından ekrana bir metin yazdırılıyor.
 
-Her bir `Siniflar` enum değeri, çalışma zamanında bir sınıf türünü temsil eder ve bu sınıf türü üzerinden yeni örnekler oluşturulabilir. Bu, Java'da yansıma (reflection) kullanarak gerçekleştirilir.
+- `karisikSinif1` ve `karisikSinif2`, `Karisik` sınıfını genişleten ve jenerik tipleri `Sinif1` ve `Sinif2` olan somut sınıflardır. Her ikisi de üst sınıfın constructor'ını kullanarak örnekleniyor.
 
-Bu kod, çalışma zamanında sınıf türleri üzerinden örnekler oluşturabilen bir tasarım sağlar, ancak dikkatli bir şekilde kullanılmalıdır. Yansıma işlemleri hatalara ve performans sorunlarına neden olabilir, bu yüzden alternatif tasarım düşünülmesi gerekebilir.
+- `Main` sınıfı, programın başlangıç noktası. `main` metodu içinde `karisikSinif1` ve `karisikSinif2` sınıflarından örnekler oluşturuluyor. Bu örnekler üzerinden `abstractMetod1()` metodu çağrılıyor.
 
-Her bir `Siniflar` enum değeri oluşturulduğunda, bu değerlerin içeriği (`SINIF1` ve `SINIF2` gibi) bellekte birer referans olarak saklanır. Bu nedenle, `Siniflar` enum'unun değerleri kadar referans oluşturulur. Ancak bu referanslar, yalnızca bu enum değerlerini temsil eder ve asıl sınıf örnekleri yalnızca ihtiyaç olduğunda (`getInstance` metodları çağrıldığında) oluşturulur.
+Program çalıştığında:
 
-Başka bir deyişle, enum değerleri bellekte sabit olarak bulunur ve bu değerlerin içeriği, gerçek sınıf örnekleri oluşturulmadan önce sadece sınıf türlerini temsil eder. Sınıf örnekleri yalnızca `getInstance` metodları çağrıldığında dinamik olarak oluşturulur.
+1. `karisikSinif1` örneği üzerinde `abstractMetod1()` çağrılıyor. Bu metod, `Sinif1` sınıfının `metot1()` metoduyla ilişkilendirilen nesneyi kullanarak ekrana bir metin yazdırıyor.
+2. `karisikSinif2` örneği üzerinde de aynı şekilde `abstractMetod1()` çağrılıyor. Bu sefer, `Sinif2` sınıfının `metot1()` metoduyla ilişkilendirilen nesneyi kullanarak farklı bir metin yazdırıyor.
+
+Bu yapı, soyutlamayı ve jenerik tiplerin kullanımını gösterir. Programın esnekliğini artırarak aynı arayüzü uygulayan farklı sınıfları aynı temel işlev üzerinden yönetmeyi sağlar.
